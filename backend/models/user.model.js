@@ -10,14 +10,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    password: {
-        type: String,
-        required: true,
-    },
     role: {
         type: String,
         required: true,
-        enum: ["student", "admin","none"],
+        enum: ["student", "admin", "none"],
     },
     createdAt: {
         type: Date,

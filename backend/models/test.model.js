@@ -10,8 +10,13 @@ const testSchema = new mongoose.Schema({
     },
     students: [
         {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+            name: {
+                type: String,
+                required: true,
+            },
+            score: {
+                type: Number,
+            },
         },
     ],
     testDate: {
