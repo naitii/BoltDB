@@ -15,7 +15,7 @@ const testSchema = new mongoose.Schema({
         },
     ],
     testDate: {
-        type: Date,
+        type: String,
         required: true,
     },
     startTime: {
@@ -23,17 +23,13 @@ const testSchema = new mongoose.Schema({
         required: true,
     },
     duration: {
-        type: Number, // in minutes
-        required: true,
-    },
-    totalMarks: {
-        type: Number,
+        type: Number, 
         required: true,
     },
     questions: [
         {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Question",
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Question",
         },
     ],
     createdAt: {

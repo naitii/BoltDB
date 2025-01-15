@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 
 const questionSchema = new mongoose.Schema({
-  questionText: {
+  text: {
     type: String,
     required: true,
   },
-  questionImage: {
+  image: {
     type: String,
   },
   testId: {
     type: String,
     required: true,
   },
-  questionType: {
+  type: {
     type: String,
     required: true,
     enum: [
@@ -32,11 +32,9 @@ const questionSchema = new mongoose.Schema({
       },
     },
   ],
-  correctOptions: [
-    {
+  correctOptions: {
       type: String,
-    },
-  ],
+   },
   integerAnswer: {
     type: Number,
   },
@@ -53,10 +51,10 @@ const questionSchema = new mongoose.Schema({
     required: true,
     enum: ["Physics", "Chemistry", "Mathematics", "Biology"],
   },
-  topic: {
+  topic: [{
     type: String,
     required: true,
-  },
+  }],
   positiveMarks: {
     type: Number,
     required: true,

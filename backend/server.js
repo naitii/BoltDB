@@ -5,6 +5,8 @@ import cors from "cors";
 import http from "http";
 import authCheck from "./auth/authCheck.js";
 import userRoute from "./routes/user.route.js";
+import questionRoute from "./routes/question.route.js";
+import testRoute from "./routes/test.route.js";
 
 dotenv.config();
 
@@ -28,6 +30,8 @@ connectDb();
 
 app.use(express.json());
 app.use("/user", userRoute);
+app.use("/question", questionRoute);
+app.use("/test", testRoute);
 
 
 app.get('/protected', authCheck, (req, res) => {

@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 
 function authCheck(req, res, next) {
-    const authHeader = req.headers.authorization;
-    // const token = authHeader && authHeader.split(" ")[1];
-    const token = req.token;
+    const token =
+      req.headers.cookie.substring(6) ||
+      req.headers.authorization?.split(" ")[1];
+    
     if(!token) {
         return res.status(401).json({message: "Unauthorized"});
     }

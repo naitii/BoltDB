@@ -4,6 +4,8 @@ import authCheck from '../auth/authCheck.js';
 
 const router = express.Router();
 
-router.post('/questions', authCheck, questionController.createQuestion);
+router.post('/', authCheck, questionController.createQuestion);
+router.put('/', authCheck, questionController.editQuestion);
+router.delete('/', authCheck, questionController.deleteQuestion);
 
 export default router;
