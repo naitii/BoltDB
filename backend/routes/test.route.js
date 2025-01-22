@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/", authCheck, testController.createTest);
 router.delete("/", authCheck, testController.deleteTest);
-router.get("/", authCheck, testController.getTests);
+router.get("/", authCheck, testController.getTest);
+router.post("/attempt", authCheck, testController.attemptTest);
 
 export default router;

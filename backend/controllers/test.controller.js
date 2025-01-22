@@ -4,12 +4,7 @@ import Test from "../models/test.model.js";
 
 const createTest = async (req, res) => {
     try{
-        const decode = jwt.verify(
-          req.headers.cookie.substring(6) ||
-            req.headers.authorization?.split(" ")[1],
-          process.env.ACCESS_TOKEN
-        );
-        const user = await User.findOne({email: decode.email});
+        const user = await User.findOne({email: req.user.email});
         if(!user){
             return res.status(401).json({message: "Unauthorized"});
         }
@@ -63,12 +58,7 @@ const createTest = async (req, res) => {
 
 const deleteTest = async (req, res) => {
     try{
-        const decode = jwt.verify(
-          req.headers.cookie.substring(6) ||
-            req.headers.authorization?.split(" ")[1],
-          process.env.ACCESS_TOKEN
-        );
-        const user = await User.findOne({email: decode.email});
+        const user = await User.findOne({email: req.user.email});
         if(!user){
             return res.status(401).json({message: "Unauthorized"});
         }
@@ -93,7 +83,7 @@ const deleteTest = async (req, res) => {
     }
 };
 
-const getTests = async (req, res) => {
+const getTest = async (req, res) => {
     try{
         const tests = await Test.find({_id: req.body.id});
         res.status(200).json(tests);
@@ -102,4 +92,58 @@ const getTests = async (req, res) => {
     }
 }
 
-export { createTest, deleteTest, getTests };
+const attemptTest = async (req, res) => {
+    try{
+        const user = await User.findOne({email: req.user.email});
+        
+        if(!user){
+            return res.status(401).json({message: "Unauthorized"});
+        }
+        const test = await Test.findById(req.body.id);
+        if(!test){
+            return res.status(404).json({message: "Test not found"});
+        }
+        if(new Date(test.testDate) < new Date().toISOString().substring(0, 10)){
+            return res.status(400).json({message: "Test has already been conducted"});
+        }
+        const pastTests = user.pastTests;
+        for(let i=0; i<pastTests.length; i++){
+            if(pastTests[i].test.toString() === req.body.id){
+                const date = new Date();
+                const duration = test.duration;
+                const startTime = pastTests[i].startTime;
+                const dateObject = new Date(startTime);
+                const endTime = dateObject.getTime() + duration*60*1000;
+                if(endTime < date.getTime()){
+                    return res.status(200).json({message: "Test completed"});
+                }
+                else{
+                    return res.status(200).json({message: "Test in progress"});
+                }
+
+            }
+            else{
+                const newTest = test;
+                const date = new Date();
+                const startTime = date.getTime();
+                pastTests.push({test: newTest._id, startTime, score: 0, attemptedOn: date});
+                user.pastTests = pastTests;
+                await user.save();
+                return res.status(200).json({message: "Test Started"});
+            }
+        } 
+        if(pastTests.length === 0){
+            const newTest = test;
+            const date = new Date();
+            const startTime = date.getTime();
+            pastTests.push({test: newTest._id, startTime, score: 0, attemptedOn: date});
+            user.pastTests = pastTests;
+            await user.save();
+            res.status(200).json({message: "Test Started"});
+        }         
+    }catch(err){
+        res.status(500).json({message: "Internal Server Error"});
+    }
+}
+
+export { createTest, deleteTest, getTest, attemptTest };

@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Question",
         },
+        answerPosted: {
+            optionSelected: {
+                type: String,
+            },
+            numberPosted:{
+                type: Number,
+            }
+        },
         correct: {
             type: Boolean,
         },
@@ -35,6 +43,9 @@ const userSchema = new mongoose.Schema({
         test: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Test",
+        },
+        startTime: {
+            type: Date,
         },
         score: {
             type: Number,

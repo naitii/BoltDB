@@ -10,7 +10,7 @@ const authCheck = async (req, res, next) => {
   try {
     const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?access_token=${token}`);
     if (response.data && response.data.aud === process.env.GOOGLE_CLIENT_ID) {
-      req.user = response.data; 
+      req.user = response.data;
       return next();
     } else {
       return res.status(403).json({ message: "Invalid token" });
