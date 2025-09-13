@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BoltDB UI</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>BoltDB</h1>
+      <p class="subtitle">In-memory key-value store</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Set</h2>
+        <div class="row">
+          <input id="set-key" placeholder="key" />
+          <input id="set-value" placeholder="value" />
+          <button id="set-btn">Save</button>
+        </div>
+        <pre id="set-result" class="result"></pre>
+      </section>
+
+      <section class="card">
+        <h2>Get</h2>
+        <div class="row">
+          <input id="get-key" placeholder="key" />
+          <button id="get-btn">Fetch</button>
+        </div>
+        <pre id="get-result" class="result"></pre>
+      </section>
+
+      <section class="card danger">
+        <h2>Delete</h2>
+        <div class="row">
+          <input id="del-key" placeholder="key" />
+          <button id="del-btn" class="danger">Delete</button>
+        </div>
+        <pre id="del-result" class="result"></pre>
+      </section>
+    </main>
+
+    <footer>
+      <span>UI served by embedded HTTP server</span>
+    </footer>
+
+    <script src="/app.js"></script>
+  </body>
+  </html>
+
+
